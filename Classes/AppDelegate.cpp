@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "TestHome.h"
+#include "HelloWorldScene.h"
 
 USING_NS_CC;
 
@@ -73,8 +73,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
+    App42API::Initialize("c9a45b7221437534842d883abc77bd377540ca523137bfdc495ab0e8de8a028d", "ac693a502c0f6ee34c02dc556dfed098282035732a4e2c14f0b26b2ea34e3960");  
+
     // create a scene. it's an autorelease object
-    auto scene = TestHome::createScene();
+    auto scene = HelloWorld::createScene();
 
     // run
     director->runWithScene(scene);

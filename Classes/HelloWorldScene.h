@@ -2,8 +2,9 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "App42API.h"  
 
-class HelloWorld : public cocos2d::Layer
+class HelloWorld : public cocos2d::Layer, public App42CallBack
 {
 public:
     static cocos2d::Scene* createScene();
@@ -12,7 +13,8 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    
+    void onUserRequestCompleted(void *response);
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

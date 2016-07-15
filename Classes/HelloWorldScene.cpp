@@ -73,6 +73,13 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
     
+    const char* userName = "Nick";
+    const char* pwd = "*******";
+    const char* emailId = "nick@shephertz.co.in";
+    UserService *userService = App42API::BuildUserService();
+    userService->CreateUser(userName, pwd, emailId,app42callback(HelloWorld::onUserRequestCompleted, this));
+
+
     return true;
 }
 
@@ -93,3 +100,24 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     
     
 }
+
+void HelloWorld::onUserRequestCompleted(void *response)
+{
+    App42UserResponse *userResponse = (App42UserResponse*)response;
+    printf("\ncode=%d...=%d",userResponse->getCode(),userResponse->isSuccess);
+    printf("\nResponse Body=%s",userResponse->getBody().c_str());
+    if (userResponse->isSuccess) {
+        for (std::vector<App42User>::iterator it = userResponse->users.begin(); it != userResponse->users.end(); ++it) {
+            printf("\n User name is %s",it->userName.c_str());
+            printf("\n Email is %s",it->email.c_str());
+            printf("\n SessionId=%s",it->sessionId.c_str());
+            printf("\n isAccountLocked=%d",it->isAccountLocked);
+            printf("\n CreatedOn=%s",it->createdOn.c_str());
+        }
+    } else {
+        printf("\nerrordetails:%s",userResponse->errorDetails.c_str());
+        printf("\nerrorMessage:%s",userResponse->errorMessage.c_str());
+        printf("\nappErrorCode:%d",userResponse->appErrorCode);
+        printf("\nhttpErrorCode:%d",userResponse->httpErrorCode);
+    }  
+}  
